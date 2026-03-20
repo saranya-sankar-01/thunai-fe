@@ -7,6 +7,8 @@ import Agent from "@/features/common-agent/src/App";
 import Brain from "@/features/brains/src/App";
 import { StreamViewer } from "@/features/brains/src/components/StreamViewer";
 import RevAI from "@/features/revenue-ai/src/App";
+import Application from "@/features/applications/src/App";
+import GettingStarted from "@/features/getting-started/src/App";
 // import RevAIPage from "../features/rev-ai/RevAIPage";
 
 // Placeholder components for now
@@ -27,11 +29,12 @@ export default function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
-            <Route path="getting-started/*" element={<MeetingFeedApp />} />
+            <Route path="getting-started/*" element={<GettingStarted />} />
             <Route path="meeting-feed/*" element={<MeetingFeedApp />} />
             <Route path="common-agent/*" element={<Agent />} />
             <Route path="brain/*" element={<Brain />} />
             <Route path="companion/revai/*" element={<RevAI />} />
+            <Route path="applications/*" element={<Application />} />
             <Route path="streams" element = {<StreamViewer/>}/>
             <Route path="settings/projects" element={<Settings />} />
             <Route path="settings/subscription-overview" element={<Settings />} />

@@ -88,7 +88,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({ application, setSe
 
     const components = application && isConnectedOrActionApp ? isOauthApp ? application?.configure_dynamic_fields : application?.dynamic_fields : application?.configure_dynamic_fields || [];
 
-    const fields = useMemo(() => {
+    const fields: any = useMemo(() => {
         if (!application) return [];
 
         if (appType === "CUSTOM_APP") {

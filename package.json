@@ -11,9 +11,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^3.10.0",
     "@json-editor/json-editor": "^2.15.2",
     "@monaco-editor/react": "^4.7.0",
+    "@mui/material": "^7.3.9",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -57,6 +60,7 @@
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "jsoneditor": "^10.4.2",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.462.0",
     "luxon": "^3.7.2",
     "marked": "^16.4.1",

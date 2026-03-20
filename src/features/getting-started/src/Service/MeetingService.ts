@@ -1,41 +1,69 @@
-import axios, { Method } from "axios";
-import CryptoJS from "crypto-js";
+import axios from "axios";
+import type { Method } from "axios";
+import * as CryptoJS from "crypto-js";
 
-const IS_ENCRYPTION_FLOW = import.meta.env.VITE_IS_ENCRYPTION_FLOW === "true" ||
-  window['env']['IS_ENCRYPTION_FLOW'] === "true" ||
-  window['env']['IS_ENCRYPTION_FLOW'] === true;
 
-const HTTP_ENCRYPT_KEY = import.meta.env.VITE_HTTP_ENCRYPT_KEY || window['env']['ENCRYPTION_KEY'];
-const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || window['env']['API_ENDPOINT'];
-const DOMAIN = import.meta.env.VITE_DOMAIN || window['env']['DOMAIN'];
+const IS_ENCRYPTION_FLOW =import.meta.env.VITE_IS_ENCRYPTION === "true" ||
+import.meta.env.VITE_IS_ENCRYPTION_FLOW === true ||
+  (window as any)['env']['IS_ENCRYPTION_FLOW'] === "true" ||
+  (window as any)['env']['IS_ENCRYPTION_FLOW'] === true;
+
+
+const HTTP_ENCRYPT_KEY =  import.meta.env.VITE_HTTP_ENCRYPT_KEY || (window as any)?.env?.ENCRYPTION_KEY;
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || (window as any)['env']['API_ENDPOINT'];
+
+
+if (IS_ENCRYPTION_FLOW && !HTTP_ENCRYPT_KEY) {
+  console.error("Encryption key is missing!");
+}
+
 
 const url = new URL(window.location.href);
-const encrypted_userInfo = url.searchParams.get("data");
-
 const urlToken = url.searchParams.get("token");
 const urlTenantId = url.searchParams.get("tenant_id");
 const urlCsrfToken = url.searchParams.get("csrf_token");
 const urlIdentifier = url.searchParams.get("url_identifier");
-const userId = url.searchParams.get("user_id")
-const urlRefreshToken = url.searchParams.get("refresh_token")
-const urlValidUntil = url.searchParams.get("valid_until")
+const userId = url.searchParams.get("user_id");
+const urlRefreshToken = url.searchParams.get("refresh_token");
+const urlValidUntil = url.searchParams.get("valid_until");
+
+const encrypted_userInfo = url.searchParams.get("data");
+
+if (encrypted_userInfo) {
+  try {
+    localStorage.setItem("user_info", encrypted_userInfo);
+  } catch (err) {
+    console.error("Failed to params user info from URL:", err);
+  }
+}
+
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? decodeURIComponent(match[2]) : null;
+}
+
+let userInfo: any = getLocalStorageItem("user_info") || {};
+try {
+  const userInfoCookie = getCookie("user_info");
+  if (userInfoCookie) userInfo = JSON.parse(userInfoCookie);
+} catch (e) {
+  console.error("Failed to parse user_info from cookie:", e);
+}
+
+
 // Store in localStorage if found in URL
 if (urlToken) localStorage.setItem("agent_token", urlToken);
 if (urlTenantId) localStorage.setItem("tenant_id", urlTenantId);
 if (urlCsrfToken) localStorage.setItem("csrf_token", urlCsrfToken);
+
+
+
 if(urlIdentifier) localStorage.setItem("url_identifier",urlIdentifier);
 if(userId) localStorage.setItem("user_id",userId)
 if(urlRefreshToken) localStorage.setItem("refresh_token", urlRefreshToken)
 if(urlValidUntil) localStorage.setItem("valid_until",urlValidUntil)
-if(encrypted_userInfo) {
-  try {
-    localStorage.setItem("user_info", encrypted_userInfo);
-} catch (err) {
-    console.error("Failed to parse user info from URL:", err);
-  }
-}
 
-const userInfo = getLocalStorageItem("user_info") || {};
+
 // All service base URLs
 const SERVICE_BASE_URLS: Record<string, string> = {
   authService: `${API_ENDPOINT}/auth-service/ai/api/v1`,
@@ -48,20 +76,17 @@ const SERVICE_BASE_URLS: Record<string, string> = {
   mcpService: `${API_ENDPOINT}/workflow-service/mcp/v1`,
   documentService: `${API_ENDPOINT}/document-service/ai/api/v1`,
   brainService: `${API_ENDPOINT}/brain-service`,
-  webhookService:`${API_ENDPOINT}/webhook-service/v1`,
-  mcpService2: `${API_ENDPOINT}/mcp-service`,
-  revService: `${API_ENDPOINT}/rev-service/ai/api/v1`,
-  directoryService: `${API_ENDPOINT}/directory-service/thunai/v1`,
-  paymentService: `${API_ENDPOINT}/payment-service/payment/v1`,
-  samlService: `${API_ENDPOINT}/saml-service`,
+  CalendarService: `${API_ENDPOINT}/calendar-service/calendar/v1`,
 };
+
 export interface ApiRequestParams<T = any> {
-  service: string;
+  service?: string;
   endpoint: string;
-  method?: Method;
-  data?: T | FormData;
+  method?: string;
+  data?: T | FormData | null;
   headers?: Record<string, string>;
 }
+
 function encryptData(data: any): string {
   const jsonString = typeof data === "string" ? data : JSON.stringify(data);
   return CryptoJS.AES.encrypt(jsonString, HTTP_ENCRYPT_KEY).toString();
@@ -77,18 +102,19 @@ function decryptData(encrypted: string): any {
     return encrypted;
   }
 }
+
 // CSRF Token Management - Simple version
 class CsrfService {
   private csrfRequest: Promise<string> | null = null;
 
   private isTokenValid(): boolean {
-    const csrfToken = userInfo?.csrf_token || localStorage.getItem("csrf_token"); 
-    const validUntil = userInfo?.csrf_valid_until || localStorage.getItem("valid_until");
+    const csrfToken =userInfo?.csrf_token || localStorage.getItem("csrf_token");
+    const validUntil = userInfo?.valid_unti || localStorage.getItem("valid_until");
     
     if (!csrfToken || !validUntil) {
       return false;
     }
-    
+
     return Date.now() < Number(validUntil) * 1000;
   }
 
@@ -103,12 +129,13 @@ class CsrfService {
           if (!token) {
             throw new Error("CSRF token is missing!");
           }
+
+          // Store in localStorage
+          localStorage.setItem("csrf_token", token);
+          localStorage.setItem("valid_until", validUntil.toString());
           userInfo.csrf_token = token;
           userInfo.csrf_valid_until = validUntil;
           setLocalStorageItem("user_info", JSON.stringify(userInfo));
-          // Store in localStorage
-          // localStorage.setItem("csrf_token", token);
-          // localStorage.setItem("valid_until", validUntil.toString());
 
           // console.log("New CSRF Token Fetched:", token);
           this.csrfRequest = null;
@@ -125,7 +152,7 @@ class CsrfService {
 
   async getCsrfToken(): Promise<string> {
     if (this.isTokenValid()) {
-       return userInfo?.csrf_token! || localStorage.getItem("csrf_token")!;
+      return userInfo?.csrf_token! || localStorage.getItem("csrf_token")!;
     }
     return this.fetchNewToken();
   }
@@ -135,68 +162,60 @@ const csrfService = new CsrfService();
 const REFRESH_URL = `${SERVICE_BASE_URLS.accountService}/account/refresh/token/`;
 
 // Token helpers
-export const getAccessToken = () => {
-return getLocalStorageItem("user_info")?.access_token  || localStorage.getItem("agent_token") 
+function getAccessToken() {
+  return  getLocalStorageItem("user_info")?.access_token || localStorage.getItem("agent_token");
 }
 function getRefreshToken() {
   return getLocalStorageItem("user_info")?.refresh_token || localStorage.getItem("refresh_token");
 }
-
-export const getTenantId = () => {
-  return userInfo?.default_tenant_id || localStorage.getItem("tenant_id") ;
-};
-export const getUserId = () => {
-  return userInfo?.profile?.userid || localStorage.getItem("user_id") ;
-};
- 
-export const getUrlIdentifier = () => {
-  return userInfo?.urlidentifier || localStorage.getItem("url_identifier") ;
-}
-
 function updateTokens(access: string, refresh: string) {
-  // const userInfo = getLocalStorageItem("user_info") || {};
-  userInfo.access_token = access;
-  userInfo.refresh_token = refresh;
   localStorage.setItem("agent_token", access);
-   localStorage.setItem("refresh_token", refresh);
+  localStorage.setItem("refresh_token", refresh);
+   userInfo.access_token = access;
+  userInfo.refresh_token = refresh;
   setLocalStorageItem("user_info", JSON.stringify(userInfo));
 }
-export function getLocalStorageItem(key: any) {
-  
-   if (key) {
-      const keyData = localStorage.getItem(key);
-      if (keyData) {
-        console.log("http", HTTP_ENCRYPT_KEY);
-        
-        const decrypteDATA = CryptoJS.AES.decrypt(keyData.trim(), HTTP_ENCRYPT_KEY);
-        if (decrypteDATA) {
-          const decryptData = decrypteDATA.toString(CryptoJS.enc.Utf8);
 
+
+export function getLocalStorageItem(key: any) {
+
+  if (key) {
+    const keyData = localStorage.getItem(key);
+    if (keyData) {
+      console.log("http", HTTP_ENCRYPT_KEY);
+
+      const decrypteDATA = CryptoJS.AES.decrypt(keyData.trim(), HTTP_ENCRYPT_KEY);
+      if (decrypteDATA) {
+        const decryptData = decrypteDATA.toString(CryptoJS.enc.Utf8);
+
+        try {
           try {
-            try {
-              return JSON.parse(decryptData);
-            } catch {
-              return decryptData; // Return raw string if not valid JSON
-            }
-          } catch (e) {
-            console.error('Failed to parse decrypted data:', e);
-            return decryptData;
+            return JSON.parse(decryptData);
+          } catch {
+            return decryptData; // Return raw string if not valid JSON
           }
-        } else return null;
+        } catch (e) {
+          console.error('Failed to parse decrypted data:', e);
+          return decryptData;
+        }
       } else return null;
     } else return null;
+  } else return null;
 }
 
 export function setLocalStorageItem(key: any, value: any) {
-    if (value) {
-      const valueToStore = typeof value === 'string' ? value : JSON.stringify(value); 
- 
-      localStorage.setItem(key, CryptoJS.AES.encrypt(valueToStore, HTTP_ENCRYPT_KEY).toString());
- 
-    } else {
-      console.error('Invalid value to store in localStorage:', value);
-    }
+  if (value) {
+    const valueToStore = typeof value === 'string' ? value : JSON.stringify(value);
+    // if(value.access_token){
+    //   setCookie(value, value.expires_in);
+    // }
+    localStorage.setItem(key, CryptoJS.AES.encrypt(valueToStore, HTTP_ENCRYPT_KEY).toString());
+
+  } else {
+    console.error('Invalid value to store in localStorage:', value);
   }
+}
+
 const api = axios.create({
   //   timeout: 15000,
 });
@@ -213,12 +232,15 @@ api.interceptors.request.use(async (config) => {
     }
   } catch (error) {
     console.error("Failed to get CSRF token:", error);
-    const fallbackCsrf =userInfo?.csrf_token || localStorage.getItem("csrf_token");
+    const fallbackCsrf = userInfo?.csrf_token //localStorage.getItem("csrf_token");
     if (fallbackCsrf) {
       config.headers["x-csrftoken"] = fallbackCsrf;
     }
   }
-   if (IS_ENCRYPTION_FLOW && config.data && typeof config.data === "object") {
+  if (IS_ENCRYPTION_FLOW &&
+    config.data &&
+    typeof config.data === "object" &&
+    !(config.data instanceof FormData)) {
     try {
       config.data = { encrypted_payload: encryptData(config.data) };
     } catch (err) {
@@ -233,9 +255,7 @@ let isRefreshing = false;
 let pendingRequests: ((token: string) => void)[] = [];
 
 api.interceptors.response.use(
-  // (response) => response,
   (response) => {
-    // Decrypt encrypted_response if enabled
     if (IS_ENCRYPTION_FLOW && response?.data?.encrypted_response) {
       try {
         response.data = decryptData(response.data.encrypted_response);
@@ -250,7 +270,7 @@ api.interceptors.response.use(
     const message = error?.response?.data?.message?.toLowerCase() || "";
 
     // Handle CSRF token errors
-    if (status === 403 && (message.includes("csrf token verification failed") || message.includes("csrf token expired"))) {
+    if (status === 403 && message.includes("csrf token verification failed")) {
       // console.log("CSRF token invalid, fetching new one...");
       try {
         await csrfService.fetchNewToken();
@@ -262,25 +282,11 @@ api.interceptors.response.use(
       }
     }
 
-    // Handle permission denied - redirect to DOMAIN
-    if ( ( message.includes("not allowed to do this action") )) {
-      console.error("Permission denied. Redirecting to domain...");
-   
-      setTimeout(() => {
-          window.parent.postMessage(
-    { type: "clearStorage", clearStorage: true },
-    "*"
-  );
-      window.location.href = `${DOMAIN}/accounts/login`;
-    }, 1000);
-        
-      return Promise.reject(error);
-    }
-
     // Handle access token refresh
     if (
       (status === 401 || status === 403 || status === 400) &&
-      (message.includes("account info updated"))
+      (message.includes("token expired") ||
+        message.includes("account info updated"))
     ) {
       if (!isRefreshing) {
         isRefreshing = true;
@@ -307,8 +313,18 @@ api.interceptors.response.use(
           pendingRequests = [];
         } catch (err) {
           console.error("Token refresh failed:", err);
+
+          // Clear tokens to prevent further API calls
+          localStorage.removeItem("agent_token");
+          localStorage.removeItem("refresh_token");
+
           pendingRequests = [];
-          throw err;
+
+          throw {
+            type: 'TOKEN_REFRESH_FAILED',
+            message: 'Your session has expired. Please refresh the page',
+            originalError: err
+          };
         } finally {
           isRefreshing = false;
         }
@@ -326,6 +342,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 export const apiRequest = async <T = any>({
   service,
   endpoint,
@@ -333,19 +350,25 @@ export const apiRequest = async <T = any>({
   data = null,
   headers = {},
 }: ApiRequestParams<T>): Promise<T> => {
+  if (!service) {
+    throw new Error("Service is required");
+  }
   try {
     const response = await api.request<T>({
       url: `${SERVICE_BASE_URLS[service]}/${endpoint}`,
-      method,
+      method: method as Method,
       data,
       headers,
     });
-    // For companion/rev-ai routes, return full response; for others, return response.data
-    const isRevAiRoute = window.location.pathname.includes('/companion/revai') || window.location.pathname.includes('/applications');
-    return (isRevAiRoute ? response : response.data) as T;
+    return response.data as T;
   } catch (error: any) {
     console.error("API Error:", error);
-    throw error;
+    
+    const errorData = error.response?.data || {
+      message: error.message || 'Unknown error occurred',
+      status: 'error'
+    };
+    throw errorData || error;
   }
 };
 
@@ -380,86 +403,8 @@ export const requestApi = async (
     data: data,
     headers: {
       "Content-Type": "application/json",
+       Authorization: `Bearer ${getAccessToken()}`,
+      "x-csrftoken": userInfo?.csrf_token || url.searchParams.get("csrf_token")  || "",
     },
   });
 };
-
-export const apiBlobRequest = async ({
-  service,
-  endpoint,
-  method = "GET",
-  headers = {},
-}: ApiRequestParams): Promise<Blob> => {
-  try {
-    const response = await api.request<Blob>({
-      url: `${SERVICE_BASE_URLS[service]}/${endpoint}`,
-      method,
-      headers,
-      responseType: "blob", 
-    });
-
-    return response.data;
-  } catch (error: any) {
-    console.error("Blob API Error:", error);
-    throw error;
-  }
-};
-
-export const requestStreamApi = async (
-  method: string,
-  endpoint: string,
-  data?: any,
-  service?: keyof typeof SERVICE_BASE_URLS,
-  onMessage?: (data: any) => void
-): Promise<void> => {
-  try {
-    let buffer = ""; // <--- buffer for partial chunks
-
-    await api.request({
-      method,
-      url: `${SERVICE_BASE_URLS[service]}/${endpoint}`,
-      data,
-      responseType: "text",
-      onDownloadProgress: (progressEvent) => {
-        const responseText =
-          progressEvent.event?.target?.responseText || "";
-
-        // Get only the newly received part
-        const chunk = responseText.slice(buffer.length);
-        buffer += chunk;
-
-        // SSE messages typically separated by double newlines
-        const messages = buffer.split("\n\n");
-
-        // All complete messages except last one
-        for (let i = 0; i < messages.length - 1; i++) {
-          const msg = messages[i].trim();
-
-          if (!msg.startsWith("data:")) continue;
-
-          // const payload = msg.replace(/^data:\s*/, "");
-const payload = msg.replace(/^data:\s*/, "").trim();
-
-if (!payload ) {
-  // Skip empty or placeholder events
-  continue;
-}
-          try {
-            const parsed = JSON.parse(payload);
-            onMessage?.(parsed);
-          } catch (err) {
-            console.error("Error parsing SSE JSON:", err);
-          }
-        }
-
-        // Keep the last incomplete message in buffer
-        buffer = messages[messages.length - 1];
-      },
-    });
-
-  } catch (error) {
-    console.error("Stream API Error:", error);
-    throw error;
-  }
-};
-
