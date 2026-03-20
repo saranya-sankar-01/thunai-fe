@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" href="/lovable-uploads/eae3ec95-ee30-47c5-bdab-511522f58f8f.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Thunai</title>
+    <meta name="description" content="Streamline document processing with AI-powered analysis, smart organization, and collaborative knowledge sharing." />
+    <meta name="author" content="Thunai" />
+
+    <meta property="og:title" content="Thunai" />
+    <meta property="og:description" content="Streamline document processing with AI-powered analysis, smart organization, and collaborative knowledge sharing." />
+    <meta property="og:type" content="website" />
+    <!-- <meta property="og:image" content="https://storage.googleapis.com/thunai-media/logo/thunai-brain.png" /> -->
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@thunai" />
+    <!-- <meta name="twitter:image" content="https://storage.googleapis.com/thunai-media/logo/thunai-brain.png" /> -->
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script src="/env.js" ></script>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+  (function () {
+    const isProd = location.hostname !== "localhost" 
+    if (isProd) {
+      console.log = function () {};
+      console.warn = function () {};
+      // console.error = function () {};
+      console.info = function () {};
+      console.debug = function () {};
+    }
+  })();
+</script>
+
+  </body>
+</html>
