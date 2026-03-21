@@ -494,7 +494,7 @@ export const Dashboard = () => {
             )}
           </div>
 
-          {/* Notification Bell */}
+          {/* Notification Bell icon */}
           <div className="relative" ref={notificationRef}>
             <button
               onClick={() => setShowNotifications(!showNotifications)}
