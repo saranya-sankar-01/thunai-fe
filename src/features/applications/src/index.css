@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Thunai Brand Guidelines Design System 
+All colors MUST be HSL and match exact brand specifications
+*/
+
+@layer base {
+  :root {
+    /* Base colors using Thunai neutral background and text */
+    --background: 0 0% 100%; /* #FFFFFFF - White */
+    --foreground: 0 0% 20%; /* #333333 - Charcoal Grey */
+
+    --card: 0 0% 100%; /* #FFFFFFF - White */
+    --card-foreground: 0 0% 20%; /* #333333 - Charcoal Grey */
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+
+    /* Primary: Deep Blue #2D2F92 */
+    --primary: 239 61% 37%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Vibrant Purple #6C63FF */
+    --secondary: 253 93% 70%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 92%; /* #FAFAFA - Very light grey */
+    --muted-foreground: 0 0% 60%; /* #4F4F4F - Slate Grey */
+
+    /* Accent: Teal Blue #2F80ED */
+    --accent: 213 90% 61%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Success: Green #27AE60 */
+    --success: 134 61% 41%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning: Orange #F2994A */
+    --warning: 25 95% 53%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Destructive: Red #EB5757 */
+    --destructive: 0 73% 63%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 88%; /* #E0E0E0 - Neutral grey */
+    --input: 0 0% 92%; /* #FAFAFA - Very light grey */
+    --ring: 201 98% 65%; /* Aqua focus ring */
+
+    --radius: 12px; /* Clean 12px rounded corners */
+
+    /* Thunai Brand Colors - Exact Hex Matches */
+    --thunai-primary: 239 61% 37%; /* #2D2F92 - Deep Blue */
+    --thunai-primary-light: 239 61% 45%; /* Lighter Deep Blue */
+    --thunai-secondary: 253 93% 70%; /* #6C63FF - Vibrant Purple */
+    --thunai-accent: 213 90% 61%; /* #2F80ED - Teal Blue */
+    --thunai-accent-2: 201 98% 65%; /* #56CCF2 - Aqua/Sky */
+    --thunai-positive: 134 61% 41%; /* #27AE60 - Green */
+    --thunai-warning: 25 95% 53%; /* #F2994A - Orange */
+    --thunai-negative: 0 73% 63%; /* #EB5757 - Red */
+    --thunai-neutral-bg: 0 0% 100%; /* #FFFFFFF - White */
+    --thunai-text-primary: 0 0% 20%; /* #333333 - Charcoal Grey */
+    --thunai-text-secondary: 0 0% 31%; /* #4F4F4F - Slate Grey */
+    
+    /* Gradients using Thunai colors */
+    --gradient-primary: linear-gradient(135deg, hsl(239 61% 37%), hsl(253 93% 70%));
+    --gradient-accent: linear-gradient(135deg, hsl(213 90% 61%), hsl(201 98% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(240 100% 98%), hsl(0 0% 100%));
+    
+    /* Clean white shadows for card elevation */
+    --shadow-soft: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0px 4px 8px rgba(0, 0, 0, 0.08);
+    --shadow-large: 0px 6px 12px rgba(0, 0, 0, 0.12);
+    
+    /* Animations - Smooth transitions */
+    --transition-smooth: all 0.2s ease-in-out;
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Sidebar using Thunai neutral background */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 239 61% 37%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 100%;
+    --sidebar-accent-foreground: 0 0% 20%;
+    --sidebar-border: 0 0% 88%;
+    --sidebar-ring: 201 98% 65%; /* Aqua focus */
+  }
+
+  .dark {
+    /* Dark mode maintains Thunai brand consistency */
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Keep Thunai primary brand color in dark mode */
+    --primary: 239 61% 37%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 253 93% 70%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+
+    --accent: 213 90% 61%;
+    --accent-foreground: 0 0% 100%;
+
+    --success: 134 61% 41%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 25 95% 53%;
+    --warning-foreground: 0 0% 100%;
+
+    --destructive: 0 73% 63%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 239 61% 37%;
+
+    /* Thunai brand colors remain consistent */
+    --thunai-primary: 239 61% 37%;
+    --thunai-primary-light: 239 61% 45%;
+    --thunai-secondary: 253 93% 70%;
+    --thunai-accent: 213 90% 61%;
+    --thunai-accent-2: 201 98% 65%;
+    --thunai-positive: 134 61% 41%;
+    --thunai-warning: 25 95% 53%;
+    --thunai-negative: 0 73% 63%;
+    --thunai-neutral-bg: 0 0% 14.9%;
+    --thunai-text-primary: 0 0% 98%;
+    --thunai-text-secondary: 0 0% 63.9%;
+
+    /* Sidebar for dark mode */
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 239 61% 37%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 239 61% 37%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* Thunai Typography Guidelines */
+  h1 {
+    @apply text-4xl font-bold;
+    font-size: 32px;
+    font-weight: 700;
+  }
+  
+  h2 {
+    @apply text-2xl font-semibold;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  h3 {
+    @apply text-lg font-medium;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  
+  .text-caption {
+    font-size: 12px;
+  }
+}
+
+@layer utilities {
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .shadow-large {
+    box-shadow: var(--shadow-large);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+  
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+  
+  /* Card styling utilities */
+  .card-elevated {
+    @apply bg-white border border-border shadow-soft hover:shadow-medium transition-smooth;
+  }
+  ::-webkit-scrollbar {
+  width: 2px; /* vertical scrollbar */
+  height: 4px; /* horizontal scrollbar */
+}
+
+}
+
+
+/* React Flow Specific Styles */
+.react-flow__node {
+  @apply rounded-md border border-border bg-card text-foreground;
+}
+
+.react-flow__node-default {
+  @apply rounded-md shadow-md border border-border;
+}
+
+.react-flow__handle {
+  @apply border-primary bg-background;
+}
+
+.react-flow__edge-path {
+  @apply stroke-blue-500;
+}
+
+.react-flow__attribution {
+  @apply hidden;
+}
+
+.react-flow__background {
+  @apply bg-background;
+}
+
+/* .react-flow__controls-button {
+  @apply border-border;
+} */
+
+.react-flow__minimap {
+  @apply bg-black;
+}

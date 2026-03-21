@@ -37,7 +37,7 @@ if(encrypted_userInfo) {
 
 const userInfo = getLocalStorageItem("user_info") || {};
 // All service base URLs
-const SERVICE_BASE_URLS: Record<string, string> = {
+export const SERVICE_BASE_URLS: Record<string, string> = {
   authService: `${API_ENDPOINT}/auth-service/ai/api/v1`,
   accountService: `${API_ENDPOINT}/account-service/ai/api/v1`,
   chatService: `${API_ENDPOINT}/chat-service/chatai/api/v1`,
@@ -341,7 +341,7 @@ export const apiRequest = async <T = any>({
       headers,
     });
     // For companion/rev-ai routes, return full response; for others, return response.data
-    const isRevAiRoute = window.location.pathname.includes('/companion/revai');
+    const isRevAiRoute = window.location.pathname.includes('/companion/revai') || window.location.pathname.includes('/applications') || window.location.pathname.includes('/settings');
     return (isRevAiRoute ? response : response.data) as T;
   } catch (error: any) {
     console.error("API Error:", error);

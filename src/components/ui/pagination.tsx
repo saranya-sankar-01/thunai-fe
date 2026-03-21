@@ -35,7 +35,8 @@ const PaginationItem = React.forwardRef<
 PaginationItem.displayName = "PaginationItem"
 
 type PaginationLinkProps = {
-  isActive?: boolean
+  isActive?: boolean,
+  disabled?:boolean,
 } & Pick<ButtonProps, "size"> &
   React.ComponentProps<"a">
 
@@ -43,6 +44,7 @@ const PaginationLink = ({
   className,
   isActive,
   size = "sm", // 👈 smaller by default
+  disabled,
   ...props
 }: PaginationLinkProps) => (
   <a
@@ -52,7 +54,8 @@ const PaginationLink = ({
         variant: isActive ? "outline" : "ghost",
         size,
       }),
-      "h-7 min-w-[28px] text-xs", // 👈 smaller height + width
+      "h-7 min-w-[28px] text-xs cursor-pointer", // 👈 smaller height + width
+      disabled && "pointer-events-none opacity-50 cursor-not-allowed",
       className
     )}
     {...props}
@@ -62,11 +65,13 @@ PaginationLink.displayName = "PaginationLink"
 
 const PaginationPrevious = ({
   className,
+  disabled,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    size="sm" // 👈 shrink prev button too
+    size="sm" 
+    disabled={disabled}
     className={cn("gap-1 pl-2 pr-2", className)}
     {...props}
   >
@@ -78,11 +83,13 @@ PaginationPrevious.displayName = "PaginationPrevious"
 
 const PaginationNext = ({
   className,
+  disabled,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
-    size="sm" // 👈 shrink next button too
+    size="sm" 
+    disabled={disabled}
     className={cn("gap-1 pl-2 pr-2", className)}
     {...props}
   >
@@ -98,7 +105,7 @@ const PaginationEllipsis = ({
 }: React.ComponentProps<"span">) => (
   <span
     aria-hidden
-    className={cn("flex h-7 w-7 items-center justify-center", className)} // 👈 reduced from h-9 w-9
+    className={cn("flex h-7 w-7 items-center justify-center", className)} 
     {...props}
   >
     <MoreHorizontal className="h-3.5 w-3.5" />
