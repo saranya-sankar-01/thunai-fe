@@ -292,8 +292,8 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Left Section */}
-      <div className="flex w-full lg:w-[60%] bg-[#F9F3DC]">
+      {/* Left Section - Hidden on small/medium screens, visible on large screens */}
+      <div className="hidden lg:flex w-full lg:w-[60%] bg-[#F9F3DC]">
         <div className="flex flex-col w-full h-full">
           {/* Logo aligned to top left */}
           {/* <img src={thunaiLogo} alt="Logo" className="w-[100px] md:w-[120px] mb-6" /> */}
@@ -647,22 +647,21 @@ export default function Login() {
 
         <footer className="text-center text-gray-500 py-3 sm:py-4 bottom-2 sm:bottom-4 absolute mb-2 sm:mb-3 min-[2500px]:mt-auto w-full px-4">
           <p className="mb-1 text-[10px] sm:text-xs">Version {version}</p>
-          <p className="mb-1 text-[10px] sm:text-xs">&copy; 2026 Thunai Technologies. All Rights Reserved.</p>
+          <p className="mb-1 text-[10px] sm:text-sm">&copy;2026 by HD Supply®. All Rights Reserved.</p>
           <div className="space-x-2 sm:space-x-4 text-[10px] sm:text-xs">
             <a
-              href="https://www.thunai.ai/terms-of-service"
+              href="https://hdsupplysolutions.com/s/terms_of_use"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 transition-colors inline-block"
-            >
+              className="hover:underline text-primary transition-colors inline-block"            >
               Terms of Service
             </a>
             <span className="text-gray-300">|</span>
             <a
-              href="https://www.thunai.ai/privacy-policy"
+              href="https://hdsupplysolutions.com/ns/privacy-policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 transition-colors inline-block"
+              className="hover:underline text-primary transition-colors inline-block"
             >
               Privacy Policy
             </a>

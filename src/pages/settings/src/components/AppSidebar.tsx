@@ -136,10 +136,10 @@ const AppSidebar: React.FC = () => {
                         </div>
                         {!collapsed && (
                             <div>
-                                <h1 className="text-xl font-bold text-gray-900">thunai</h1>
+                                {/* <h1 className="text-xl font-bold text-gray-900">thunai</h1>
                                 <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700">
                                     V1.0
-                                </Badge>
+                                </Badge> */}
                             </div>
                         )}
 

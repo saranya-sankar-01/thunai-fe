@@ -134,7 +134,7 @@ const OverView = () => {
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold">
             Get Started With{" "}
             <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-bold">
-              Thunai!
+              HDS!
             </span>
           </h1>
           <p className="text-gray-500 text-xs sm:text-sm md:text-base max-w-md lg:max-w-lg xl:max-w-xl">

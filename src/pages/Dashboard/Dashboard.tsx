@@ -20,8 +20,9 @@ import {
 import { getLocalStorageItem, setLocalStorageItem } from '../../services/auth';
 import { requestApi } from '../../features/meeting-feed/src/Service/MeetingService';
 import { useToast } from '@/hooks/use-toast';
-import thunaiLogo from '../../assets/images/branding/thunai-logo-light.png';
+// import logo from '../../assets/images/branding/thunai-logo-light.png';
 import { menu } from '@/constants/menu-folder';
+const logo ="https://images.hdsupplysolutions.com/image/upload/v1619948796/MarketingAssets/onsite/promotions/Logo/cmyk/png/HDS_4CB_CMYK.png"
 
 // Folder structure (move this to a separate file later)
 const folderStructure = menu;
@@ -310,9 +311,9 @@ export const Dashboard = () => {
             <div className="flex items-center min-w-0 flex-1">
               {!isCollapsed && (
                 <img
-                  src={thunaiLogo}
-                  alt="Thunai Logo"
-                  className="h-8 w-auto max-w-[100px] object-contain ml-2"
+                  src={logo}
+                  alt="HDS Logo"
+                  className="h-10 w-auto max-w-[150px] object-contain ml-2 transition-all duration-300 ease-in-out max-[1050px]:h-6 max-[480px]:ml-1 max-[480px]:max-w-[70px] select-none"
                 />
               )}
             </div>
@@ -333,9 +334,9 @@ export const Dashboard = () => {
           {/* Show logo when collapsed */}
           {isCollapsed && (
             <img
-              src={thunaiLogo}
-              alt="Thunai Logo"
-              className="h-8 w-auto mt-2 max-w-[100px] object-contain ml-2"
+              src={logo}
+              alt="HDS Logo"
+              className="h-8 w-auto mt-4 max-w-[150px] object-contain ml-2 transition-all duration-300 ease-in-out max-[1050px]:block max-[768px]:h-6 max-[480px]:max-w-[80px] select-none"
             />
           )}
         </div>
@@ -642,14 +643,22 @@ export const Dashboard = () => {
             {!isCollapsed && (
               <div className="p-4 border-t text-center text-xs text-gray-600">
                 <div>V{version}</div>
-                <div className="mt-2">&copy; 2026 Thunai Technologies</div>
+                <div className="mt-2">&copy; 2026 by HD Supply®. All Rights Reserved.</div>
                 <div className="flex justify-center gap-2 mt-2">
-                  <a href="https://www.thunai.ai/terms-of-service" target="_blank" className="hover:underline">
-                    Terms
+                  <a
+                    href="https://hdsupplysolutions.com/s/terms_of_use"
+                    target="_blank"
+                    className="hover:underline text-primary"
+                  >
+                    Terms of Service
                   </a>
                   <span>|</span>
-                  <a href="https://www.thunai.ai/privacy-policy" target="_blank" className="hover:underline">
-                    Privacy
+                  <a
+                    href="https://hdsupplysolutions.com/ns/privacy-policy"
+                    target="_blank"
+                    className="hover:underline text-primary"
+                  >
+                    Privacy Policy
                   </a>
                 </div>
               </div>
