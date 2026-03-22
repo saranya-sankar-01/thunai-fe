@@ -21,57 +21,10 @@ import { getLocalStorageItem, setLocalStorageItem } from '../../services/auth';
 import { requestApi } from '../../features/meeting-feed/src/Service/MeetingService';
 import { useToast } from '@/hooks/use-toast';
 import thunaiLogo from '../../assets/images/branding/thunai-logo-light.png';
+import { menu } from '@/constants/menu-folder';
 
 // Folder structure (move this to a separate file later)
-const folderStructure = [
-   {
-    name: 'OVERVIEW',
-    isOpen: true,
-    subfolders: [
-      { name: 'Getting Started', link: '/getting-started', icon: Video },
-    ]
-  },
-  {
-    name: 'COMPANION',
-    isOpen: true,
-    subfolders: [
-      { name: 'Meeting Feed', link: '/meeting-feed', icon: Video },
-      { name: 'Revenue AI', link: '/companion/revai', icon: Phone },
-      { name: 'Reflect AI', link: '/salesEnablement/calldetail', icon: Phone },
-
-    ]
-  },
-   {
-    name: 'AGENTS',
-    isOpen: true,
-    subfolders: [
-      { name: 'Agents', link: '/common-agent', icon: Video },
-      { name: 'Omni', link: '/omni', icon: Phone },
-    ]
-  },
-   {
-    name: 'KNOWLEDGE BASE',
-    isOpen: true,
-    subfolders: [
-      { name: 'Brain', link: '/brain', icon: Video },
-    ]
-  },
-   {
-    name: 'INTEGRATIONS',
-    isOpen: true,
-    subfolders: [
-      { name: 'Applications', link: '/applications', icon: Video },
-      { name: 'Streams', link: '/streams', icon: Video },
-    ]
-  },
-  // {
-  //   name: 'Smart Tools',
-  //   isOpen: false,
-  //   subfolders: [
-  //     { name: 'Notes', link: '/SmartTools/notes', icon: FileText },
-  //   ]
-  // },
-];
+const folderStructure = menu;
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -645,7 +598,6 @@ export const Dashboard = () => {
                   {folder.isOpen && (
                     <div className="space-y-1">
                       {folder.subfolders.map((subfolder, subIndex) => {
-                        const IconComponent = subfolder.icon;
                         return (
                           <div
                             key={subIndex}
@@ -656,10 +608,19 @@ export const Dashboard = () => {
                                 : 'text-gray-700 hover:bg-[#E9EAEB]'
                             } ${isCollapsed ? 'justify-center' : ''}`}
                           >
-                            <IconComponent 
+                            <img
+                              src={subfolder.icon}
+                              alt={subfolder.name}
                               className={`w-5 h-5 ${
-                                selectedFolder === subfolder.name ? 'text-blue-600' : 'text-gray-600'
+                                selectedFolder === subfolder.name 
+                                  ? 'brightness-0 saturate-100 invert-[0.3] sepia-[1] hue-rotate-[180deg]' 
+                                  : ''
                               }`}
+                              style={
+                                selectedFolder === subfolder.name
+                                  ? { filter: 'brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(200deg) brightness(99%) contrast(101%)' }
+                                  : {}
+                              }
                             />
                             {!isCollapsed && (
                               <span className="text-sm">{subfolder.name}</span>
@@ -702,7 +663,7 @@ export const Dashboard = () => {
             isMobile ? 'ml-0' : isCollapsed ? 'ml-[80px]' : 'ml-64'
           }`}
         >
-          <div className="p-6">
+          <div className="">
             <Outlet />
           </div>
         </div>
