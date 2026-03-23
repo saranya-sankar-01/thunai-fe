@@ -158,7 +158,7 @@ const AppSidebar: React.FC = () => {
                                             to={group.url}
                                             className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${getNavCls(group.url)}`}
                                         >
-                                            <img src={isActive(group.url) ? group.iconActive : group.icon} alt={group.title} className="w-4 h-4 flex-shrink-0" />
+                                            <img src={isActive(group.url) ? group.iconActive : group.icon} alt={group.title} className="w-5 h-5 flex-shrink-0" />
 
                                             {!collapsed && <span>{group.title}</span>}
                                         </NavLink>

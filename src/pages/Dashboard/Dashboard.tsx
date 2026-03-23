@@ -20,6 +20,7 @@ import {
 import { getLocalStorageItem, setLocalStorageItem } from '../../services/auth';
 import { requestApi } from '../../features/meeting-feed/src/Service/MeetingService';
 import { useToast } from '@/hooks/use-toast';
+import { useSidebarState } from '@/hooks/useSidebarState';
 // import logo from '../../assets/images/branding/thunai-logo-light.png';
 import { menu } from '@/constants/menu-folder';
 const logo ="https://images.hdsupplysolutions.com/image/upload/v1619948796/MarketingAssets/onsite/promotions/Logo/cmyk/png/HDS_4CB_CMYK.png"
@@ -31,10 +32,13 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
+  const { isCollapsed, toggleSidebar: toggleSidebarState, setCollapsed } = useSidebarState();
+  
+  // Check if we're on settings page
+  const isSettingsPage = location.pathname.startsWith('/settings');
   
   // State management
   const [userInfo, setUserInfo] = useState<any>(null);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -61,7 +65,7 @@ export const Dashboard = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       if (mobile) {
-        setIsCollapsed(false);
+        setCollapsed(false);
         setIsSidebarOpen(false);
       }
     };
@@ -161,7 +165,7 @@ export const Dashboard = () => {
     if (isMobile) {
       setIsSidebarOpen(!isSidebarOpen);
     } else {
-      setIsCollapsed(!isCollapsed);
+      toggleSidebarState();
     }
   };
 
@@ -331,8 +335,8 @@ export const Dashboard = () => {
             </button>
           </div>
 
-          {/* Show logo when collapsed */}
-          {isCollapsed && (
+          {/* Show logo when collapsed or on settings page */}
+          {(isCollapsed) && (
             <img
               src={logo}
               alt="HDS Logo"
@@ -561,7 +565,7 @@ export const Dashboard = () => {
       </div>
 
       {/* Mobile Overlay */}
-      {isSidebarOpen && isMobile && (
+      {isSidebarOpen && isMobile && isSettingsPage && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={toggleSidebar}
@@ -570,7 +574,8 @@ export const Dashboard = () => {
 
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
+        {/* Sidebar - Hide on settings page */}
+        {!isSettingsPage && (
         <div
           className={`bg-[#FAFAFA] fixed left-0 z-50 h-[calc(100vh-60px)] flex flex-col border-r border-[#E9EAEB] transition-all duration-300 ${
             isCollapsed ? 'w-[80px]' : 'w-64'
@@ -665,11 +670,12 @@ export const Dashboard = () => {
             )}
           </div>
         </div>
+        )}
 
         {/* Main Content */}
         <div
           className={`flex-1 overflow-auto transition-all duration-300 ${
-            isMobile ? 'ml-0' : isCollapsed ? 'ml-[80px]' : 'ml-64'
+            isSettingsPage ? 'ml-0' : (isMobile ? 'ml-0' : isCollapsed ? 'ml-[80px]' : 'ml-64')
           }`}
         >
           <div className="">
