@@ -1,4 +1,4 @@
-import { apiRequest, getTenantId, requestApi, requestApiFromData } from "../services/workflow";
+import { apiRequest, getTenantId, requestApi, requestApiFromData } from "@/services/authService";
 import axios from "axios";
 const tenant_id = getTenantId()
 export const CanvasLists = async (payload) => {

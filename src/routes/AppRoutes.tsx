@@ -37,8 +37,8 @@ export default function AppRoutes() {
             <Route path="companion/revai/*" element={<RevAI />} />
             <Route path="applications/*" element={<Application />} />
             <Route path="streams" element = {<StreamViewer/>}/>
-            </Route>
-             <Route path="settings/*" element={<Settings />} />  
+            <Route path="settings/*" element={<Settings />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

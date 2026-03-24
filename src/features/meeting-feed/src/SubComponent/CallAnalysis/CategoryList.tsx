@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchCategory } from "../../features/CallAnalysiSlice";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { getLocalStorageItem ,requestApi } from "../../Service/MeetingService";
+import { getLocalStorageItem ,requestApi } from "@/services/authService";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

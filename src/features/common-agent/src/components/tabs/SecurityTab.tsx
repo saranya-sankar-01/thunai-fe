@@ -11,7 +11,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Shield, ShieldCheck, Lock, ChevronDown ,Plus,Trash2} from "lucide-react";
 import { useLocation } from 'react-router-dom';
 import { fetchSchemaAttributes } from "../../services/accountService";
-import { requestApi } from "../../services/workflow";
+import { requestApi } from "@/services/authService";
 interface AccessRule {
   attribute: string;
   operator: string;

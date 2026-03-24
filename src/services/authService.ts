@@ -36,6 +36,11 @@ if(encrypted_userInfo) {
 }
 
 const userInfo = getLocalStorageItem("user_info") || {};
+
+function getSafeUserInfo(): Record<string, any> {
+  const stored = getLocalStorageItem("user_info");
+  return stored && typeof stored === "object" && !Array.isArray(stored) ? stored : {};
+}
 // All service base URLs
 export const SERVICE_BASE_URLS: Record<string, string> = {
   authService: `${API_ENDPOINT}/auth-service/ai/api/v1`,
@@ -82,8 +87,9 @@ class CsrfService {
   private csrfRequest: Promise<string> | null = null;
 
   private isTokenValid(): boolean {
-    const csrfToken = userInfo?.csrf_token || localStorage.getItem("csrf_token"); 
-    const validUntil = userInfo?.csrf_valid_until || localStorage.getItem("valid_until");
+    const freshUserInfo = getSafeUserInfo();
+    const csrfToken = freshUserInfo?.csrf_token || localStorage.getItem("csrf_token");
+    const validUntil = freshUserInfo?.csrf_valid_until || localStorage.getItem("valid_until");
     
     if (!csrfToken || !validUntil) {
       return false;
@@ -103,9 +109,15 @@ class CsrfService {
           if (!token) {
             throw new Error("CSRF token is missing!");
           }
-          userInfo.csrf_token = token;
-          userInfo.csrf_valid_until = validUntil;
-          setLocalStorageItem("user_info", JSON.stringify(userInfo));
+
+          // Merge CSRF values with existing user_info (do not replace object)
+          const existingData = getSafeUserInfo();
+          const mergedUserInfo = {
+            ...existingData,
+            csrf_token: token || existingData.csrf_token,
+            csrf_valid_until: validUntil || existingData.csrf_valid_until,
+          };
+          setLocalStorageItem("user_info", mergedUserInfo);
           // Store in localStorage
           // localStorage.setItem("csrf_token", token);
           // localStorage.setItem("valid_until", validUntil.toString());
@@ -125,7 +137,8 @@ class CsrfService {
 
   async getCsrfToken(): Promise<string> {
     if (this.isTokenValid()) {
-       return userInfo?.csrf_token! || localStorage.getItem("csrf_token")!;
+      const freshUserInfo = getSafeUserInfo();
+      return freshUserInfo?.csrf_token || localStorage.getItem("csrf_token") || "";
     }
     return this.fetchNewToken();
   }

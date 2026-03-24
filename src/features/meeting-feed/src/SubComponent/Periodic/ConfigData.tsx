@@ -5,7 +5,7 @@ import UserIcon from "../../assets/svg/UserIcon.svg";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {getLocalStorageItem ,requestApi } from "../../Service/MeetingService";
+import {getLocalStorageItem ,requestApi } from "@/services/authService";
 import Skeleton from "../../components/Skeleton";
 
 import EditIcon from "../../assets/svg/Edit.svg";

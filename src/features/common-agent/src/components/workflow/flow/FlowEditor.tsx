@@ -39,7 +39,7 @@ import { useLocation } from "react-router-dom";
 import Loaders from "../../../components/workflow/common-components/loader";
 import AutoSaveIndicator from "../common-components/AutoSaveIndicator";
 import { Bot, Loader2 } from "lucide-react";
-import { getTenantId, requestApi } from "../../../services/workflow";
+import { getTenantId, requestApi } from "@/services/authService";
 import { useWidgetStore } from "../../../stores/widgetStore";
 
 type FlowNode = Node<NodeData>;

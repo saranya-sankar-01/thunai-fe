@@ -1,4 +1,4 @@
-import { getLocalStorageItem , requestApi } from "../Service/MeetingService";
+import { getLocalStorageItem , requestApi } from "@/services/authService";
 
 const userInfo = getLocalStorageItem("user_info") || {};
 const tenant_id = userInfo?.default_tenant_id || localStorage.getItem("tenant_id");
