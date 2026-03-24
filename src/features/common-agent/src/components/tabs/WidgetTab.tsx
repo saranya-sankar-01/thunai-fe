@@ -14,7 +14,7 @@ import { WidgetPreview } from "../WidgetPreview";
 import { Upload } from "lucide-react"; // Added Upload icon
 import { useRef } from "react"; 
 import { uploadFile } from "../../services/documentService";
-import { getTenantId, requestApiFromData } from "../../services/workflow";
+import { getTenantId, requestApiFromData } from "@/services/authService";
 interface WidgetTabProps {
   config: AgentData;
   onChange?: (updates: any) => void;

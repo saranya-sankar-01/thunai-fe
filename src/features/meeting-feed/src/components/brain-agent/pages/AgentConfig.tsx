@@ -5,7 +5,7 @@ import { ArrowLeft, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AgentList from "../agent/AgentList";
 import AgentForm from "../agent/AgentForm";
-import {getLocalStorageItem, requestApi } from "../../../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 import { useToast } from "@/hooks/use-toast";
 
 export interface Agent {

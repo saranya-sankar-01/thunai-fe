@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {getLocalStorageItem,requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem,requestApi } from "@/services/authService";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 import Group from "../assets/image/Group.png";

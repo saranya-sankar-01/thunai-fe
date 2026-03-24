@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { getLocalStorageItem , requestApi } from "../Service/MeetingService";
+import { getLocalStorageItem , requestApi } from "@/services/authService";
 import FileImg from "../assets/svg/FileImg.svg";
 import Close from "../assets/svg/Close.svg";
 

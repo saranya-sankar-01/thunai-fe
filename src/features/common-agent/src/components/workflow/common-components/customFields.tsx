@@ -3,7 +3,7 @@ import { Trash2, Plus, Sparkles, Check, Loader2 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import Select from "react-select";  // Import react-select
 import { useWidgetStore } from '../../../stores/widgetStore';
-import { getTenantId, requestApi } from "../../../services/workflow";
+import { getTenantId, requestApi } from "@/services/authService";
 
 interface CustomFieldProps {
   fields: any[];

@@ -6,9 +6,11 @@ import {
   ChevronRight, 
   CheckCircle2
 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 // Import services
-import { authService, getLocalStorageItem, setLocalStorageItem, environment } from '../../services/auth';
+import { authService, environment } from '../../services/auth';
+import { getLocalStorageItem, setLocalStorageItem } from '@/services/authService';
 
 // Import images
 import thunaiLogo from '../../assets/images/branding/thunai-logo-light.png';
@@ -25,6 +27,7 @@ import AzureIcon from '../../assets/images/microsoft.svg';
 
 export default function Login() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   // --- State ---
   const [view, setView] = useState<'login' | 'forgotPassword'>('login');
@@ -91,6 +94,12 @@ export default function Login() {
       };
       setLocalStorageItem('user_info', dataToStore);
 
+      // Show success toast
+      toast({
+        title: "Login Successful",
+        description: `Welcome back, ${callbackData.data.profile?.username || 'User'}!`,
+      });
+
       if (callbackData?.data?.subscription?.last_payment_link) {
         setPaymentLinkPopup(true);
       } else if (callbackData?.data) {
@@ -103,11 +112,18 @@ export default function Login() {
           clearCookie('utm_source');
         } else {
           // Default navigation
-          navigate('/meeting-feed/MeetingAssistants');
+          setTimeout(() => {
+            navigate('/meeting-feed/MeetingAssistants');
+          }, 2000);
         }
       }
     } catch (error) {
       console.error('Callback error:', error);
+      toast({
+        title: "Login Failed",
+        description: "Failed to complete login. Please try again.",
+        variant: "destructive",
+      });
       setRedirectLogin(false);
     }
   };

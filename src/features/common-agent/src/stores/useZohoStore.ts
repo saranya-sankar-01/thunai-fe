@@ -1,4 +1,4 @@
-import { getTenantId, getUserId, requestApi } from "../services/workflow";
+import { getTenantId, getUserId, requestApi } from "@/services/authService";
 import { create } from "zustand";
 
 interface ZohoAccount {

@@ -9,7 +9,7 @@ import remarkGfm from "remark-gfm";
 import { CheckCircle, Loader2, Maximize2, Minimize, RefreshCw, XCircle, Edit2, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Icons } from './constants';
-import { getLocalStorageItem, requestApi } from '../../../Service/MeetingService';
+import { getLocalStorageItem, requestApi } from '@/services/authService';
 
 export const ApprovalStatus = {
   PENDING: 'pending',

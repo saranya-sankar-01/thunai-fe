@@ -7,7 +7,7 @@ import {
   useImperativeHandle,
   type RefObject,
 } from "react";
-import {getLocalStorageItem, requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 import MoreVert from "../assets/svg/More_vert.svg";
 import Anotomy from "../assets/svg/Anotomy.svg";
 import DeleteImg from "../assets/svg/Delete.svg";

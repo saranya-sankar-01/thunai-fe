@@ -101,10 +101,14 @@ class CsrfService {
             throw new Error("CSRF token is missing!");
           }
 
-          // Store in localStorage
-        userInfo.csrf_token = token;
-          userInfo.csrf_valid_until = validUntil;
-          setLocalStorageItem("user_info", JSON.stringify(userInfo));
+        const existingData = userInfo || {};
+                  const dataToStore = {
+                    ...existingData,
+                    csrf_token: token || existingData.csrf_token,
+                    csrf_valid_until: validUntil || existingData.csrf_valid_until,
+                  };
+                  setLocalStorageItem("user_info", JSON.stringify(dataToStore));
+                  
           localStorage.setItem("csrf_token", token);
           localStorage.setItem("valid_until", validUntil.toString());
 

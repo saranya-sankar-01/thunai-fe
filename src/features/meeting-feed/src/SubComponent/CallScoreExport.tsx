@@ -1,8 +1,8 @@
 import { useState, forwardRef, useImperativeHandle } from "react";
-import { getLocalStorageItem } from "../Service/MeetingService";
+import { getLocalStorageItem } from "@/services/authService";
 
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-// import { requestApi } from "../Service/MeetingService";
+// import { requestApi } from "@/services/authService";
 
 import axios from "axios";
 

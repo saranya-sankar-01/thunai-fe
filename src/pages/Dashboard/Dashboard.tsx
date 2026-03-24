@@ -18,9 +18,10 @@ import {
   Loader2
 } from 'lucide-react';
 import { getLocalStorageItem, setLocalStorageItem } from '../../services/auth';
-import { requestApi } from '../../features/meeting-feed/src/Service/MeetingService';
+import { requestApi } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 import { useSidebarState } from '@/hooks/useSidebarState';
+import Askthunai from '@/features/ask-thunai/app';
 // import logo from '../../assets/images/branding/thunai-logo-light.png';
 import { menu } from '@/constants/menu-folder';
 const logo ="https://images.hdsupplysolutions.com/image/upload/v1619948796/MarketingAssets/onsite/promotions/Logo/cmyk/png/HDS_4CB_CMYK.png"
@@ -33,6 +34,7 @@ export const Dashboard = () => {
   const location = useLocation();
   const { toast } = useToast();
   const { isCollapsed, toggleSidebar: toggleSidebarState, setCollapsed } = useSidebarState();
+  const askThunaiPreviousSidebarState = useRef<boolean | null>(null);
   
   // Check if we're on settings page
   const isSettingsPage = location.pathname.startsWith('/settings');
@@ -169,6 +171,21 @@ export const Dashboard = () => {
     }
   };
 
+  const handleAskThunaiOpenChange = (isOpen: boolean) => {
+    if (isMobile) return;
+
+    if (isOpen) {
+      askThunaiPreviousSidebarState.current = isCollapsed;
+      setCollapsed(true);
+      return;
+    }
+
+    if (askThunaiPreviousSidebarState.current !== null) {
+      setCollapsed(askThunaiPreviousSidebarState.current);
+      askThunaiPreviousSidebarState.current = null;
+    }
+  };
+
   const toggleFolder = (folderIndex: number) => {
     const newFolders = [...folders];
     newFolders[folderIndex].isOpen = !newFolders[folderIndex].isOpen;
@@ -268,7 +285,7 @@ export const Dashboard = () => {
     }
   };
 
-  const filteredTenants = tenants.filter(tenant =>
+  const filteredTenants = tenants?.filter(tenant =>
     tenant.name?.toLowerCase().includes(tenantSearch.toLowerCase())
   );
 
@@ -573,7 +590,7 @@ export const Dashboard = () => {
       )}
 
       {/* Main Content Area */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden min-h-0">
         {/* Sidebar - Hide on settings page */}
         {!isSettingsPage && (
         <div
@@ -674,15 +691,21 @@ export const Dashboard = () => {
 
         {/* Main Content */}
         <div
-          className={`flex-1 overflow-auto transition-all duration-300 ${
-            isSettingsPage ? 'ml-0' : (isMobile ? 'ml-0' : isCollapsed ? 'ml-[80px]' : 'ml-64')
+          className={`flex-1 min-w-0 min-h-0 overflow-auto overflow-x-hidden transition-all duration-300 ${
+            isSettingsPage ? 'pl-0' : (isMobile ? 'pl-0' : isCollapsed ? 'pl-[80px]' : 'pl-64')
           }`}
         >
-          <div className="">
+          <div className="min-w-0 min-h-full">
             <Outlet />
           </div>
         </div>
       </div>
+
+      <Askthunai
+        isSidebarCollapsed={isCollapsed}
+        isSettingsPage={isSettingsPage}
+        onOpenChange={handleAskThunaiOpenChange}
+      />
 
       {/* Logout Confirmation Dialog */}
       {showLogoutDialog && (

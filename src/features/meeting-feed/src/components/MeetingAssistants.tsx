@@ -17,7 +17,7 @@ type FilterItem =| { key_name: string; key_value: string[]; operator: "in" | "no
   credits: number;
 }
 
-import {getLocalStorageItem, requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 // import ResearchMeeting from "../SubComponent/ResearchMeeting";
 import MeetingShare from "../SubComponent/MeetingShare";

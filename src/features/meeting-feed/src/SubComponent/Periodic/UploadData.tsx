@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { getLocalStorageItem ,requestApiFromData } from "../../Service/MeetingService";
+import { getLocalStorageItem ,requestApiFromData } from "@/services/authService";
 
 import PeriodicApiStore from "../../Zustand/PeriodicApiStore";
 import { useToast } from "@/hooks/use-toast";
