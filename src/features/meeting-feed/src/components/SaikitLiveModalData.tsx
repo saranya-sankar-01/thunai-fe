@@ -1,4 +1,4 @@
-import { getLocalStorageItem } from "../Service/MeetingService";
+import { getLocalStorageItem } from "@/services/authService";
 import { useEffect, useRef, useState } from "react";
 
 interface Message {

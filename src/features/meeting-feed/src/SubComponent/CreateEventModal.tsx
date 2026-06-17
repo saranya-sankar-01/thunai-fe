@@ -3,7 +3,7 @@ import { useState } from "react";
 import TeamMeet from "../assets/image/teams.png";
 import GoogleMeet from "../assets/image/meet.png";
 import ZoomMeet from "../assets/image/zoom-icone-svg-150px.png";
-import {getLocalStorageItem, requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 
 // interface EventFormErrors {
 //   summary?: string;

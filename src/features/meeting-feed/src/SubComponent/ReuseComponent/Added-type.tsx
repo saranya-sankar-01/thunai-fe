@@ -11,7 +11,7 @@ import Webex from "../../assets/svg/Webex.svg";
 import PeriodicImg from "../../assets/svg/Periodic.svg";
  const METRIC_ENDPOINT =  import.meta.env.VITE_METRICS_ENDPOINT || (window as any)['env']['METRICS_ENDPOINT'];
 
- import { getLocalStorageItem } from "../../Service/MeetingService";
+ import { getLocalStorageItem } from "@/services/authService";
 
 
 

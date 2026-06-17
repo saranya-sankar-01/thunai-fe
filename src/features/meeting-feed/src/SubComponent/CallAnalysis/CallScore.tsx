@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { FetchMappingApi, FetchAllScore } from "../../features/CallAnalysiSlice";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { useNavigate } from "react-router-dom";
-import { getLocalStorageItem ,requestApi } from "../../Service/MeetingService";
+import { getLocalStorageItem ,requestApi } from "@/services/authService";
 
 // const url = new URL(window.location.href);
 import { ToastContainer } from "react-toastify";

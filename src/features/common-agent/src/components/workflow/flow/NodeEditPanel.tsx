@@ -8,7 +8,7 @@
 // import Step4Authorization from "./editPopup/step4Authorization";
 // import Dropdown from "../common-components/dropdown";
 // import { useWidgetStore } from '@/stores/widgetStore';
-// import { requestApi } from "@/services/workflow";
+// import { requestApi } from "@/@/services/authService";
 
 
 // interface NodeEditPanelProps {
@@ -694,7 +694,7 @@ import Step3Application from "./editPopup/Step3Application";
 import Step4Authorization from "./editPopup/step4Authorization";
 import Dropdown from "../common-components/dropdown";
 import { useWidgetStore } from '../../../stores/widgetStore';
-import { getTenantId, requestApi } from "../../../services/workflow";
+import { getTenantId, requestApi } from "@/services/authService";
 import { v4 as uuidv4 } from "uuid";
 
 

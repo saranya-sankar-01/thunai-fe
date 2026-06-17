@@ -136,10 +136,10 @@ const AppSidebar: React.FC = () => {
                         </div>
                         {!collapsed && (
                             <div>
-                                <h1 className="text-xl font-bold text-gray-900">thunai</h1>
+                                {/* <h1 className="text-xl font-bold text-gray-900">thunai</h1>
                                 <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700">
                                     V1.0
-                                </Badge>
+                                </Badge> */}
                             </div>
                         )}
 
@@ -158,7 +158,7 @@ const AppSidebar: React.FC = () => {
                                             to={group.url}
                                             className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${getNavCls(group.url)}`}
                                         >
-                                            <img src={isActive(group.url) ? group.iconActive : group.icon} alt={group.title} className="w-4 h-4 flex-shrink-0" />
+                                            <img src={isActive(group.url) ? group.iconActive : group.icon} alt={group.title} className="w-5 h-5 flex-shrink-0" />
 
                                             {!collapsed && <span>{group.title}</span>}
                                         </NavLink>

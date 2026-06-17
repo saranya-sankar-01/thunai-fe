@@ -48,7 +48,7 @@ import { FAQSection } from "../FAQSection";
 import { QuillSignatureEditor } from "../QuillSignatureEditorProps";
 import { manageCustomEmail } from "../../services/authService";
 import { useToast } from "@/components/ui/use-toast";
-import { apiRequest, getTenantId, requestApi } from "../../services/workflow";
+import { apiRequest, getTenantId, requestApi } from "@/services/authService";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 interface BasicInstructionsTabProps {

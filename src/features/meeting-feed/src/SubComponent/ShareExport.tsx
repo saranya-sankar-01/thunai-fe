@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {getLocalStorageItem, requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 import { useSearchParams,useParams, useNavigate } from "react-router-dom";
 
 

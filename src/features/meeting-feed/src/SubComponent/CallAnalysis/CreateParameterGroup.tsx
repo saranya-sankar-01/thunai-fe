@@ -12,7 +12,7 @@ import type { Parameter, SubParameter } from "../../types/scoring";
 
 import { useToast } from "@/hooks/use-toast";
 
-import {getLocalStorageItem , requestApi } from "../../Service/MeetingService";
+import {getLocalStorageItem , requestApi } from "@/services/authService";
 
 import BackArrow from "../../assets/svg/Arrow_back.svg";
 

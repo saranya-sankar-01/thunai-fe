@@ -17,7 +17,7 @@ type FilterItem =| { key_name: string; key_value: string[]; operator: "in" | "no
   credits: number;
 }
 
-import {getLocalStorageItem, requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 // import ResearchMeeting from "../SubComponent/ResearchMeeting";
 import MeetingShare from "../SubComponent/MeetingShare";
@@ -55,6 +55,8 @@ import CallScoreStore from "../Zustand/CallScoreStore";
 const userInfo = getLocalStorageItem("user_info") || {};
     const tenant_id = userInfo?.default_tenant_id || localStorage.getItem("tenant_id");
 
+    console.log("userinfo", userInfo);
+    
 const MeetingAssistants = () => {
   const childRef = useRef<any>(null);
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import DeleteImg from "../assets/svg/DeleteBlack.svg";
 import CloseIcon from "../assets/svg/Close.svg";
 import VerifiedIcon from "../assets/svg/Verified.svg";
 // import type { Dispatch, SetStateAction } from "react";
-import { getLocalStorageItem,requestApi } from "../Service/MeetingService";
+import { getLocalStorageItem,requestApi } from "@/services/authService";
 import  DeleteConfirmationModal  from "../SubComponent/ReuseComponent/DeleteConfirmationModal";
 import { FaFileAlt } from "react-icons/fa";
 import { LuBrainCircuit } from "react-icons/lu";

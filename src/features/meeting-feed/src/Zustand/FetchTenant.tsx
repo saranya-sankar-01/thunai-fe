@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { requestApi } from "../Service/MeetingService";
+import { requestApi } from "@/services/authService";
 
 interface Tenant {
   name: string;

@@ -27,7 +27,7 @@ import DeleteImg from "../../assets/svg/Delete.svg";
 import Edit from "../../assets/svg/Edit.svg";
 import OutWard from "../../assets/svg/Arrow_outward.svg";
 
-import {getLocalStorageItem, requestApi } from "../../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 
 
 const url = new URL(window.location.href);

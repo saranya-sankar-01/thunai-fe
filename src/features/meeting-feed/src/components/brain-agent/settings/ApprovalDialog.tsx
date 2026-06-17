@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, XCircle, FileText, User, Edit, Eye, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { getLocalStorageItem , requestApi } from "../../../Service/MeetingService";
+import { getLocalStorageItem , requestApi } from "@/services/authService";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Input } from "@/components/ui/input";

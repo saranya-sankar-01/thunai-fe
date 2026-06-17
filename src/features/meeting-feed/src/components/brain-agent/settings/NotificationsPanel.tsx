@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, CheckCircle, XCircle, FileText, User, History, Loader2, UserCheck, Search, RefreshCw } from "lucide-react"; // Import Loader2 for loading spinner
 import ApprovalDialog from "./ApprovalDialog";
-import {getLocalStorageItem, requestApi } from "../../../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 import ISTTime from "@/components/shared-components/ISTTime";
 import { AgentPagination } from "@/components/shared-components/pagination";
 import { Input } from "@/components/ui/input";

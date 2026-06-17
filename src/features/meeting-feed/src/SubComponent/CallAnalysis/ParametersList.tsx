@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {getLocalStorageItem, requestApi } from "../../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 
 import Check2 from "../../assets/svg/Check2.svg";
 import DeleteImg from "../../assets/svg/Delete.svg";

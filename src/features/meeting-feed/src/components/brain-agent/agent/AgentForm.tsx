@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Plus, X, Save, AlertCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { Agent } from "../pages/AgentConfig";
-import {getLocalStorageItem ,requestApi } from "../../../Service/MeetingService";
+import {getLocalStorageItem ,requestApi } from "@/services/authService";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 // import { requestApi } from "@/service/MeetingService";
 

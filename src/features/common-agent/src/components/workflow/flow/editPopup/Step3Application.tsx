@@ -14,7 +14,7 @@
 // import GoogleDriveMultiSelectDropdown from "@/components/workflow/common-components/google-drive-multiSelectDropdown";
 // import GoogleDriveForm from "@/components/workflow/forms/google-drive";
 // import { useWidgetStore } from '@/stores/widgetStore';
-// import { requestApi } from "@/services/workflow";
+// import { requestApi } from "@/@/services/authService";
 // interface AppEndpoint {
 //   application_id: string;
 //   application_name: string;
@@ -1010,7 +1010,7 @@ import { Check, ChevronDown, Plus, Trash2 } from "lucide-react";
 import Dropdown from "../../../workflow/common-components/dropdown";
 import GoogleDriveForm from "../../../workflow/forms/google-drive";
 import { useWidgetStore } from '../../../../stores/widgetStore';
-import { getAccessToken, getTenantId, getUrlIdentifier, getUserId, requestApi } from "../../../../services/workflow";
+import { getAccessToken, getTenantId, getUrlIdentifier, getUserId, requestApi } from "@/services/authService";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import ZohoCrmForm from "../../forms/ZohoCrmForm";

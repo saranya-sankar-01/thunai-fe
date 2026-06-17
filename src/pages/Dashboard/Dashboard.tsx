@@ -18,69 +18,29 @@ import {
   Loader2
 } from 'lucide-react';
 import { getLocalStorageItem, setLocalStorageItem } from '../../services/auth';
-import { requestApi } from '../../features/meeting-feed/src/Service/MeetingService';
+import { requestApi } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
-import thunaiLogo from '../../assets/images/branding/thunai-logo-light.png';
+import { useSidebarState } from '@/hooks/useSidebarState';
+import Askthunai from '@/features/ask-thunai/app';
+// import logo from '../../assets/images/branding/thunai-logo-light.png';
+import { menu } from '@/constants/menu-folder';
+const logo ="https://images.hdsupplysolutions.com/image/upload/v1619948796/MarketingAssets/onsite/promotions/Logo/cmyk/png/HDS_4CB_CMYK.png"
 
 // Folder structure (move this to a separate file later)
-const folderStructure = [
-   {
-    name: 'OVERVIEW',
-    isOpen: true,
-    subfolders: [
-      { name: 'Getting Started', link: '/getting-started', icon: Video },
-    ]
-  },
-  {
-    name: 'COMPANION',
-    isOpen: true,
-    subfolders: [
-      { name: 'Meeting Feed', link: '/meeting-feed', icon: Video },
-      { name: 'Revenue AI', link: '/companion/revai', icon: Phone },
-      { name: 'Reflect AI', link: '/salesEnablement/calldetail', icon: Phone },
-
-    ]
-  },
-   {
-    name: 'AGENTS',
-    isOpen: true,
-    subfolders: [
-      { name: 'Agents', link: '/common-agent', icon: Video },
-      { name: 'Omni', link: '/omni', icon: Phone },
-    ]
-  },
-   {
-    name: 'KNOWLEDGE BASE',
-    isOpen: true,
-    subfolders: [
-      { name: 'Brain', link: '/brain', icon: Video },
-    ]
-  },
-   {
-    name: 'INTEGRATIONS',
-    isOpen: true,
-    subfolders: [
-      { name: 'Applications', link: '/applications', icon: Video },
-      { name: 'Streams', link: '/streams', icon: Video },
-    ]
-  },
-  // {
-  //   name: 'Smart Tools',
-  //   isOpen: false,
-  //   subfolders: [
-  //     { name: 'Notes', link: '/SmartTools/notes', icon: FileText },
-  //   ]
-  // },
-];
+const folderStructure = menu;
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
+  const { isCollapsed, toggleSidebar: toggleSidebarState, setCollapsed } = useSidebarState();
+  const askThunaiPreviousSidebarState = useRef<boolean | null>(null);
+  
+  // Check if we're on settings page
+  const isSettingsPage = location.pathname.startsWith('/settings');
   
   // State management
   const [userInfo, setUserInfo] = useState<any>(null);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -107,7 +67,7 @@ export const Dashboard = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       if (mobile) {
-        setIsCollapsed(false);
+        setCollapsed(false);
         setIsSidebarOpen(false);
       }
     };
@@ -207,7 +167,22 @@ export const Dashboard = () => {
     if (isMobile) {
       setIsSidebarOpen(!isSidebarOpen);
     } else {
-      setIsCollapsed(!isCollapsed);
+      toggleSidebarState();
+    }
+  };
+
+  const handleAskThunaiOpenChange = (isOpen: boolean) => {
+    if (isMobile) return;
+
+    if (isOpen) {
+      askThunaiPreviousSidebarState.current = isCollapsed;
+      setCollapsed(true);
+      return;
+    }
+
+    if (askThunaiPreviousSidebarState.current !== null) {
+      setCollapsed(askThunaiPreviousSidebarState.current);
+      askThunaiPreviousSidebarState.current = null;
     }
   };
 
@@ -310,7 +285,7 @@ export const Dashboard = () => {
     }
   };
 
-  const filteredTenants = tenants.filter(tenant =>
+  const filteredTenants = tenants?.filter(tenant =>
     tenant.name?.toLowerCase().includes(tenantSearch.toLowerCase())
   );
 
@@ -357,9 +332,9 @@ export const Dashboard = () => {
             <div className="flex items-center min-w-0 flex-1">
               {!isCollapsed && (
                 <img
-                  src={thunaiLogo}
-                  alt="Thunai Logo"
-                  className="h-8 w-auto max-w-[100px] object-contain ml-2"
+                  src={logo}
+                  alt="HDS Logo"
+                  className="h-10 w-auto max-w-[150px] object-contain ml-2 transition-all duration-300 ease-in-out max-[1050px]:h-6 max-[480px]:ml-1 max-[480px]:max-w-[70px] select-none"
                 />
               )}
             </div>
@@ -377,12 +352,12 @@ export const Dashboard = () => {
             </button>
           </div>
 
-          {/* Show logo when collapsed */}
-          {isCollapsed && (
+          {/* Show logo when collapsed or on settings page */}
+          {(isCollapsed) && (
             <img
-              src={thunaiLogo}
-              alt="Thunai Logo"
-              className="h-8 w-auto mt-2 max-w-[100px] object-contain ml-2"
+              src={logo}
+              alt="HDS Logo"
+              className="h-8 w-auto mt-4 max-w-[150px] object-contain ml-2 transition-all duration-300 ease-in-out max-[1050px]:block max-[768px]:h-6 max-[480px]:max-w-[80px] select-none"
             />
           )}
         </div>
@@ -607,7 +582,7 @@ export const Dashboard = () => {
       </div>
 
       {/* Mobile Overlay */}
-      {isSidebarOpen && isMobile && (
+      {isSidebarOpen && isMobile && isSettingsPage && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={toggleSidebar}
@@ -615,8 +590,9 @@ export const Dashboard = () => {
       )}
 
       {/* Main Content Area */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
+      <div className="flex flex-1 overflow-hidden min-h-0">
+        {/* Sidebar - Hide on settings page */}
+        {!isSettingsPage && (
         <div
           className={`bg-[#FAFAFA] fixed left-0 z-50 h-[calc(100vh-60px)] flex flex-col border-r border-[#E9EAEB] transition-all duration-300 ${
             isCollapsed ? 'w-[80px]' : 'w-64'
@@ -645,7 +621,6 @@ export const Dashboard = () => {
                   {folder.isOpen && (
                     <div className="space-y-1">
                       {folder.subfolders.map((subfolder, subIndex) => {
-                        const IconComponent = subfolder.icon;
                         return (
                           <div
                             key={subIndex}
@@ -656,10 +631,19 @@ export const Dashboard = () => {
                                 : 'text-gray-700 hover:bg-[#E9EAEB]'
                             } ${isCollapsed ? 'justify-center' : ''}`}
                           >
-                            <IconComponent 
+                            <img
+                              src={subfolder.icon}
+                              alt={subfolder.name}
                               className={`w-5 h-5 ${
-                                selectedFolder === subfolder.name ? 'text-blue-600' : 'text-gray-600'
+                                selectedFolder === subfolder.name 
+                                  ? 'brightness-0 saturate-100 invert-[0.3] sepia-[1] hue-rotate-[180deg]' 
+                                  : ''
                               }`}
+                              style={
+                                selectedFolder === subfolder.name
+                                  ? { filter: 'brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(200deg) brightness(99%) contrast(101%)' }
+                                  : {}
+                              }
                             />
                             {!isCollapsed && (
                               <span className="text-sm">{subfolder.name}</span>
@@ -681,32 +665,47 @@ export const Dashboard = () => {
             {!isCollapsed && (
               <div className="p-4 border-t text-center text-xs text-gray-600">
                 <div>V{version}</div>
-                <div className="mt-2">&copy; 2026 Thunai Technologies</div>
+                <div className="mt-2">&copy; 2026 by HD Supply®. All Rights Reserved.</div>
                 <div className="flex justify-center gap-2 mt-2">
-                  <a href="https://www.thunai.ai/terms-of-service" target="_blank" className="hover:underline">
-                    Terms
+                  <a
+                    href="https://hdsupplysolutions.com/s/terms_of_use"
+                    target="_blank"
+                    className="hover:underline text-primary"
+                  >
+                    Terms of Service
                   </a>
                   <span>|</span>
-                  <a href="https://www.thunai.ai/privacy-policy" target="_blank" className="hover:underline">
-                    Privacy
+                  <a
+                    href="https://hdsupplysolutions.com/ns/privacy-policy"
+                    target="_blank"
+                    className="hover:underline text-primary"
+                  >
+                    Privacy Policy
                   </a>
                 </div>
               </div>
             )}
           </div>
         </div>
+        )}
 
         {/* Main Content */}
         <div
-          className={`flex-1 overflow-auto transition-all duration-300 ${
-            isMobile ? 'ml-0' : isCollapsed ? 'ml-[80px]' : 'ml-64'
+          className={`flex-1 min-w-0 min-h-0 overflow-auto overflow-x-hidden transition-all duration-300 ${
+            isSettingsPage ? 'pl-0' : (isMobile ? 'pl-0' : isCollapsed ? 'pl-[80px]' : 'pl-64')
           }`}
         >
-          <div className="p-6">
+          <div className="min-w-0 min-h-full">
             <Outlet />
           </div>
         </div>
       </div>
+
+      <Askthunai
+        isSidebarCollapsed={isCollapsed}
+        isSettingsPage={isSettingsPage}
+        onOpenChange={handleAskThunaiOpenChange}
+      />
 
       {/* Logout Confirmation Dialog */}
       {showLogoutDialog && (

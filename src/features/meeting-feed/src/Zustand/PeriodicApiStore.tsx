@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import {getLocalStorageItem, requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 
 /* ---------- HELPERS ---------- */
 

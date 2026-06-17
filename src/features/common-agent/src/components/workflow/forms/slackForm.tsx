@@ -2,7 +2,7 @@ import { FC } from "react";
 import MultiSelectDropdown from "../common-components/slackMultiselectDropdown";
 import { useLocation } from "react-router-dom";
 import ToolSelect from "../common-components/ToolSelect";
-import { getUserId } from "../../../services/workflow";
+import { getUserId } from "@/services/authService";
 
 interface FreshdeskFormProps {
   selectedApp: any;

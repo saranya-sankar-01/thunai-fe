@@ -2,7 +2,7 @@ import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { fetchMeetingAgent } from "../features/MeetSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { useNavigate } from "react-router-dom";
-import {getLocalStorageItem, requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 import { groupMeetingsByDate } from "../Service/MeetGrouping";
 
 import { useSearchParams } from "react-router-dom";

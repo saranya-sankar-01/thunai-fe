@@ -25,7 +25,10 @@ import  LoadingComp  from "./SubComponent/ReuseComponent/LoadingComp";
 import { Approvals } from "./components/brain-agent/pages/Approvals";
 import { Toaster } from "../../../components/ui/toaster";
 import { Toaster as Sonner } from "../../../components/ui/sonner";
+import { getLocalStorageItem } from "@/services/auth";
 
+const userinfo = getLocalStorageItem  ("user_info");
+console.log(userinfo);
 
 function MeetingFeedApp() {
   return (

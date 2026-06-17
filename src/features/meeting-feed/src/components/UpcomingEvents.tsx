@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {getLocalStorageItem, requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem, requestApi } from "@/services/authService";
 import { groupMeetingsByDate } from "../Service/MeetGrouping";
 
 import CalendarSyncStore from "../Zustand/CalendarSyncStore";

@@ -1,6 +1,6 @@
 import { useEffect, useState ,useRef} from "react";
 import { useNavigate } from "react-router-dom";
-import {getLocalStorageItem , requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem , requestApi } from "@/services/authService";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Skeleton from "../components/Skeleton";

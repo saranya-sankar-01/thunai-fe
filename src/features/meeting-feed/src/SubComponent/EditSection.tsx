@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {getLocalStorageItem , requestApi } from "../Service/MeetingService";
+import {getLocalStorageItem , requestApi } from "@/services/authService";
 
 import DownArrow from "../assets/svg/Keyboard_arrow_down1.svg";
 

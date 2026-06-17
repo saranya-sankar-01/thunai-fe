@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {  useLocation } from "react-router-dom";
-import { getLocalStorageItem ,requestApi } from "../Service/MeetingService";
+import { getLocalStorageItem ,requestApi } from "@/services/authService";
 import { formatDistanceToNow, format } from "date-fns";
 import { ArrowLeft, Calendar, Share2, Eye } from "lucide-react";
 import LoadingComp from "./ReuseComponent/LoadingComp";

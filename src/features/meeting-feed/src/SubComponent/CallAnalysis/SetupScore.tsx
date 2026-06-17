@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { getLocalStorageItem ,requestApi } from "../../Service/MeetingService";
+import { getLocalStorageItem ,requestApi } from "@/services/authService";
 import { ToastContainer, toast } from "react-toastify";
 import LoadingComp from "../ReuseComponent/LoadingComp";
 // import ReactMarkdown from "react-markdown";
