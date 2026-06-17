@@ -55,6 +55,8 @@ import CallScoreStore from "../Zustand/CallScoreStore";
 const userInfo = getLocalStorageItem("user_info") || {};
     const tenant_id = userInfo?.default_tenant_id || localStorage.getItem("tenant_id");
 
+    console.log("userinfo", userInfo);
+    
 const MeetingAssistants = () => {
   const childRef = useRef<any>(null);
   const navigate = useNavigate();

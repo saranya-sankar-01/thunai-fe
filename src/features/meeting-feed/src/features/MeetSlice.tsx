@@ -29,6 +29,8 @@ const initialState: MeetingState = {
 
 // const url = new URL(window.location.href);
 const userInfo = getLocalStorageItem("user_info") || {};
+console.log("userinof", userInfo);
+
 const tenant_id = userInfo?.default_tenant_id;
 const user_id = userInfo?.profile?.user_id;
 

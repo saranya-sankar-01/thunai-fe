@@ -35,8 +35,6 @@ if(encrypted_userInfo) {
   }
 }
 
-const userInfo = getLocalStorageItem("user_info") || {};
-
 function getSafeUserInfo(): Record<string, any> {
   const stored = getLocalStorageItem("user_info");
   return stored && typeof stored === "object" && !Array.isArray(stored) ? stored : {};
@@ -156,23 +154,26 @@ function getRefreshToken() {
 }
 
 export const getTenantId = () => {
-  return userInfo?.default_tenant_id || localStorage.getItem("tenant_id") ;
+  const freshUserInfo = getSafeUserInfo();
+  return freshUserInfo?.default_tenant_id || localStorage.getItem("tenant_id");
 };
 export const getUserId = () => {
-  return userInfo?.profile?.userid || localStorage.getItem("user_id") ;
+  const freshUserInfo = getSafeUserInfo();
+  return freshUserInfo?.profile?.userid || localStorage.getItem("user_id");
 };
  
 export const getUrlIdentifier = () => {
-  return userInfo?.urlidentifier || localStorage.getItem("url_identifier") ;
+  const freshUserInfo = getSafeUserInfo();
+  return freshUserInfo?.urlidentifier || localStorage.getItem("url_identifier");
 }
 
 function updateTokens(access: string, refresh: string) {
-  // const userInfo = getLocalStorageItem("user_info") || {};
-  userInfo.access_token = access;
-  userInfo.refresh_token = refresh;
+  const freshUserInfo = getSafeUserInfo();
+  freshUserInfo.access_token = access;
+  freshUserInfo.refresh_token = refresh;
   localStorage.setItem("agent_token", access);
-   localStorage.setItem("refresh_token", refresh);
-  setLocalStorageItem("user_info", JSON.stringify(userInfo));
+  localStorage.setItem("refresh_token", refresh);
+  setLocalStorageItem("user_info", freshUserInfo);
 }
 export function getLocalStorageItem(key: any) {
   
@@ -205,6 +206,25 @@ export function setLocalStorageItem(key: any, value: any) {
       const valueToStore = typeof value === 'string' ? value : JSON.stringify(value); 
  
       localStorage.setItem(key, CryptoJS.AES.encrypt(valueToStore, HTTP_ENCRYPT_KEY).toString());
+
+      if (key === "user_info") {
+        const parsedValue = typeof value === "string"
+          ? (() => {
+              try {
+                return JSON.parse(value);
+              } catch {
+                return null;
+              }
+            })()
+          : value;
+
+        if (parsedValue?.default_tenant_id) {
+          localStorage.setItem("tenant_id", parsedValue.default_tenant_id);
+        }
+        if (parsedValue?.profile?.user_id) {
+          localStorage.setItem("user_id", parsedValue.profile.user_id);
+        }
+      }
  
     } else {
       console.error('Invalid value to store in localStorage:', value);
@@ -226,7 +246,7 @@ api.interceptors.request.use(async (config) => {
     }
   } catch (error) {
     console.error("Failed to get CSRF token:", error);
-    const fallbackCsrf =userInfo?.csrf_token || localStorage.getItem("csrf_token");
+    const fallbackCsrf = getSafeUserInfo()?.csrf_token || localStorage.getItem("csrf_token");
     if (fallbackCsrf) {
       config.headers["x-csrftoken"] = fallbackCsrf;
     }
